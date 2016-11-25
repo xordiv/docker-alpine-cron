@@ -5,7 +5,7 @@ Installed packages: dcron wget rsync ca-certificates
 
 #### Environment variables:
 
-CRON_STRINGS - strings with cron jobs. Use "\n" fro newline (Default: undefined)   
+CRON_STRINGS - strings with cron jobs. Use "\n" for newline (Default: undefined)   
 CRON_TAIL - if defined cron log file will read to *stdout* by *tail* (Default: undefined)   
 By default cron running in foreground  
 

@@ -1,11 +1,15 @@
 #!/bin/sh
 set -e
 
-if [ ! -z "$CRON_TAIL" ] 
+export LOGFILE=/var/log/cron/cron.log
+
+if [ "$CRON_TAIL" == "no_logfile" ] 
 then
-	# crond running in background and log file reading every second by tail to STDOUT
-	crond -s /var/spool/cron/crontabs -b -L /var/log/cron/cron.log "$@" && tail -f /var/log/cron/cron.log
-else
-	# crond running in foreground. log files can be retrive from /var/log/cron mount point
-	crond -s /var/spool/cron/crontabs -f -L /var/log/cron/cron.log "$@"
+  rm $LOGFILE
+  mkfifo $LOGFILE
 fi
+
+[ -n "$CRON_CMD_OUTPUT_LOG" ] && output="-M /log_to_file.sh"
+[ -n "$CRON_TAIL" ] && tail -f $LOGFILE &
+
+crond $output -s /var/spool/cron/crontabs -f -L $LOGFILE "$@"

@@ -5,18 +5,20 @@ Installed packages: dcron wget rsync ca-certificates
 
 #### Environment variables:
 
-CRON_STRINGS - strings with cron jobs. Use "\n" for newline (Default: undefined)   
-CRON_TAIL - if defined cron log file will read to *stdout* by *tail* (Default: undefined)   
-By default cron running in foreground  
+**CRON_STRINGS** - strings with cron jobs. Use "\n" for newline (Default: undefined)   
+**CRON_TAIL** - if defined the cron log file will be sent to *stdout* by *tail*. Additionally, if set to the value *no_logfile*, no log file will be created and logging will be to *stdout* only. (Default: undefined)   
+**CRON_CMD_OUTPUT_LOG** - if defined the output of the commands executed by cron will also be sent to *stdout*, otherwise they will be ignored (Default: undefined)
+
+crond always runs in the foreground  
 
 #### Cron files
 - /etc/cron.d - place to mount custom crontab files  
 
-When image will run, files in */etc/cron.d* will copied to */var/spool/cron/crontab*.   
+When image runs, files in */etc/cron.d* will copied to */var/spool/cron/crontab*.   
 If *CRON_STRINGS* defined script creates file */var/spool/cron/crontab/CRON_STRINGS*  
 
 #### Log files
-Log file by default placed in /var/log/cron/cron.log 
+Unless *CRON_TAIL* is set to *no_logfile*, the log file will be placed in /var/log/cron/cron.log.
 
 #### Simple usage:
 ```
